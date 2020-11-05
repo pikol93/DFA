@@ -8,7 +8,7 @@ namespace Pikol93.DFA
         where TState : Enum
     {
         protected Dictionary<TState, DFAState<TSignal, TState>> States { get; private set; }
-        protected TState CurrentState { get; private set; }
+        public TState CurrentState { get; private set; }
 
         #region IDisposable
 
@@ -49,13 +49,15 @@ namespace Pikol93.DFA
             States[CurrentState].EnterState(null);
         }
 
-        public void InvokeSignal(TSignal signal)
+        public void InvokeSignal(TSignal signal, object[] overrideArguments = null)
         {
             DFATransition<TState> transition = States[CurrentState].GetTransition(signal);
             
             if (transition != null)
             {
-                object[] args = transition.GetArguments?.Invoke();
+
+                object[] args = overrideArguments == null ? 
+                    transition.GetArguments?.Invoke() : overrideArguments;
                 ChangeState(transition.TargetState, args);
             }
         }
