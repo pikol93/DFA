@@ -7,8 +7,13 @@ namespace Pikol93.DFA
         where TSignal : Enum
         where TState : Enum
     {
-        private Dictionary<TSignal, DFATransition<TState>> Transitions { get; }
-            = new Dictionary<TSignal, DFATransition<TState>>();
+        private Dictionary<TSignal, DFATransition<TState>> _transitions = 
+            new Dictionary<TSignal, DFATransition<TState>>();
+        public Dictionary<TSignal, DFATransition<TState>> Transitions
+        {
+            get => _transitions;
+            set => AddTransitions(value);
+        }
 
         #region IDisposable
 
@@ -34,7 +39,7 @@ namespace Pikol93.DFA
 
         #endregion
 
-        protected void AddTransitions(IEnumerable<KeyValuePair<TSignal, DFATransition<TState>>> transitions)
+        public void AddTransitions(IEnumerable<KeyValuePair<TSignal, DFATransition<TState>>> transitions)
         {
             foreach (KeyValuePair<TSignal, DFATransition<TState>> transition in transitions)
             {
