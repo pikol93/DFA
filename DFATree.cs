@@ -62,7 +62,7 @@ namespace Pikol93.DFA
             }
         }
 
-        private void ChangeState(TState targetState, object[] args)
+        protected void ChangeState(TState targetState, object[] args)
         {
             if (!States.ContainsKey(targetState))
                 return;
